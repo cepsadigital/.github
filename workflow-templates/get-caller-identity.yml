@@ -1,7 +1,7 @@
 
 # This is a basic workflow to help you get started with Actions
 
-name: CepsaCI get aws caller identity
+name: CEPSA-get-caller-indentity
   
 on:
   workflow_dispatch:
