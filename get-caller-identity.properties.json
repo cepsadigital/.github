@@ -1,7 +1,6 @@
 {
   "name": "get aws caller indentity - CEPSA",
   "description": "A job to show if your are in the correct accounts",
-  "iconName": "example-icon",
   "categories": [
       "Shell"
   ],
