@@ -1,0 +1,11 @@
+{
+  "name": "Upload Python Package to Artifactory - CEPSA",
+  "description": "A job to upload your packages to Cepsa's Artifactory",
+  "iconName": "rocket",
+  "categories": [
+      "Shell"
+  ],
+  "filePatterns": [
+      "package.json$"
+  ]
+}
