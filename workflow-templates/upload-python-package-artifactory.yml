@@ -14,9 +14,7 @@ jobs:
       uses: cepsadigital/github-action-devops-test-and-code-analysis@master 
       with:
         source-code-folder-name: 'src'
-        tox-filename: 'tox.ini'
-        python-version: '3.6'
-        requirements-filename: 'requirements.txt'     
+        python-version: '3.6'   
     - name: SonarQube Scan
       uses: cepsadigital/github-action-devops-sonar-scan@master       
     - name: Build and publish
