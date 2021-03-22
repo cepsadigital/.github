@@ -10,33 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - name: Run Tests and Code Analysis
+      uses: cepsadigital/github-action-devops-test-and-code-analysis@master 
       with:
+        source-code-folder-name: 'src'
+        tox-filename: 'tox.ini'
         python-version: '3.6'
-    - name: Run tests
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox && tox
-    - name: Static Code Analysis
-      run: |
-        mkdir -p reports
-        pip install pylint bandit
-        pylint -r y -s y -f json --exit-zero src/ --exit-zero > reports/pylint.json
-        bandit -r src/ -f json -o reports/bandit.json || true
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+        requirements-filename: 'requirements.txt'     
     - name: SonarQube Scan
-      uses: cepsadigital/devops-sonar-github-action@master
-      with:
-        host: ${{ secrets.TD_SONAR_HOST }}
-        login: ${{ secrets.TD_SONAR_USER }}
-        password: ${{ secrets.TD_SONAR_PSW }}         
+      uses: cepsadigital/github-action-sonarqube-scan@master       
     - name: Build and publish
-      env:        
-        ARTIFACTORY_PWD: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload --repository-url https://cepsa.jfrog.io/artifactory/api/pypi/td-pypi-local -u jenkins -p ${ARTIFACTORY_PWD} --non-interactive dist/*
+      uses: cepsadigital/github-action-devops-upload-artifactory-action@master
+      with:
+        repository-host: <VIRTUAL-REPOSITORY-HOST>
