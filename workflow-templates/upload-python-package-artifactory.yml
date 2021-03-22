@@ -22,4 +22,4 @@ jobs:
     - name: Build and publish
       uses: cepsadigital/github-action-devops-upload-artifactory@master
       with:
-        repository-host: <VIRTUAL-REPOSITORY-HOST>
+        repository-host: https://cepsa.jfrog.io/artifactory/api/pypi/td-pypi
