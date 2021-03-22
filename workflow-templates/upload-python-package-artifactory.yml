@@ -20,6 +20,6 @@ jobs:
     - name: SonarQube Scan
       uses: cepsadigital/github-action-devops-sonar-scan@master       
     - name: Build and publish
-      uses: cepsadigital/github-action-devops-upload-artifactory-action@master
+      uses: cepsadigital/github-action-devops-upload-artifactory@master
       with:
         repository-host: <VIRTUAL-REPOSITORY-HOST>
