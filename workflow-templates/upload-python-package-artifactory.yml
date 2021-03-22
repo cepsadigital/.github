@@ -10,14 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
     - name: Run Tests and Code Analysis
       uses: cepsadigital/github-action-devops-test-and-code-analysis@master 
       with:
-        source-code-folder-name: 'src'
-        python-version: '3.6'   
+        source-code-folder-name: 'cepsa_aws_utils_test_actions'
     - name: SonarQube Scan
-      uses: cepsadigital/github-action-devops-sonar-scan@master       
+      uses: cepsadigital/github-action-devops-sonar-scan@master
+      with:
+        host: ${{ secrets.TD_SONAR_HOST }}
+        login: ${{ secrets.TD_SONAR_USER }}
+        password: ${{ secrets.TD_SONAR_PSW }} 
     - name: Build and publish
       uses: cepsadigital/github-action-devops-upload-artifactory@master
       with:
         repository-host: https://cepsa.jfrog.io/artifactory/api/pypi/td-pypi
+        artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
+        artifactory-token: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
