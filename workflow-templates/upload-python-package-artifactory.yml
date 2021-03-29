@@ -24,7 +24,7 @@ jobs:
         host: ${{ secrets.TD_SONAR_HOST }}
         login: ${{ secrets.TD_SONAR_USER }}
         password: ${{ secrets.TD_SONAR_PSW }} 
-    - name: Build and publish
+    - name: Build and Publish to Artifactory
       uses: cepsadigital/github-action-devops-upload-artifactory@master
       with:
         repository-host: https://cepsa.jfrog.io/artifactory/api/pypi/td-pypi
