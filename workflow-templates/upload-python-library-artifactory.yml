@@ -1,4 +1,4 @@
-# Workflow: CEPSA - Upload Python Library to Artifactory
+# Workflow: Upload Python Library to Artifactory - CEPSA
 # Description: This is a basic workflow for packaging python libraries and uploading them to Artifactory.
 # Actions: 
 # - Set up Python version
@@ -10,7 +10,7 @@
 # - Upload Python Library to Artifactory
 # https://github.com/cepsadigital/github-action-devops-python-upload-artifactory
 
-name: CEPSA - Upload Python Library to Artifactory
+name: Upload Python Library to Artifactory - CEPSA
 
 on:
   workflow_dispatch:
