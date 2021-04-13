@@ -7,7 +7,7 @@
 # https://github.com/cepsadigital/github-action-devops-python-testing
 # - SonarQube Scan
 # https://github.com/cepsadigital/github-action-devops-sonar-scan
-# - Upload Python Package to Artifactory
+# - Upload Python Library to Artifactory
 # https://github.com/cepsadigital/github-action-devops-python-upload-artifactory
 
 name: CEPSA - Upload Python Library to Artifactory
