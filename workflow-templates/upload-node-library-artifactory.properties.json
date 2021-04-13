@@ -1,0 +1,11 @@
+{
+  "name": "Upload Node.js Library to Artifactory - CEPSA",
+  "description": "A job to upload your libraries to Cepsa's Artifactory",
+  "iconName": "upload_package",
+  "categories": [
+      "Shell"
+  ],
+  "filePatterns": [
+      "package.json$"
+  ]
+}
