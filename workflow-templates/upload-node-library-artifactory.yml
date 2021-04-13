@@ -1,0 +1,47 @@
+name: CEPSA - Upload NodeJS Library to Artifactory
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build, Test, and Publish NodeJS Library
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACTORY_NODE_REPOSITORY: 'td-npm'
+      NODE_VERSION: '12.x'
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: http://cepsa.jfrog.io/artifactory/api/npm/${{ env.ARTIFACTORY_NODE_REPOSITORY }}
+
+    - name: npm install
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      run: |
+        npm install --production
+
+    - name: npm build
+      run: |
+        npm run build --if-present
+
+    - name: npm test
+      run: |
+        npm run test --if-present
+
+    - name: SonarQube Scan
+      uses: cepsadigital/github-action-devops-sonar-scan@1.0.0
+      with:
+        host: ${{ secrets.TD_SONAR_HOST }}
+        login: ${{ secrets.TD_SONAR_USER }}
+        password: ${{ secrets.TD_SONAR_PSW }} 
+
+    - name: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      run: |
+        npm publish --if-present
