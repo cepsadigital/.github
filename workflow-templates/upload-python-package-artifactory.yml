@@ -1,7 +1,7 @@
 # Workflow: CEPSA - Upload Python Package to Artifactory
 # Description: This is a basic workflow for packaging python libraries and uploading them to Artifactory.
 # Actions: 
-# - Set up Python
+# - Set up Python version
 # https://github.com/actions/setup-python
 # - Run Python Tests and Code Analysis
 # https://github.com/cepsadigital/github-action-devops-python-testing
