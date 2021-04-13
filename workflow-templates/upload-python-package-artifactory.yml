@@ -1,11 +1,11 @@
 # Workflow: CEPSA - Upload Python Package to Artifactory
 # Description: This is a basic workflow for packaging python libraries and uploading them to Artifactory.
 # Actions:             
-# - Run Tests and Code Analysis
+# - Run Python Tests and Code Analysis
 # https://github.com/cepsadigital/github-action-devops-python-testing
 # - SonarQube Scan
 # https://github.com/cepsadigital/github-action-devops-sonar-scan
-# - Build and Publish to Artifactory
+# - Upload Python Package to Artifactory
 # https://github.com/cepsadigital/github-action-devops-python-upload-artifactory
 
 name: CEPSA - Upload Python Package to Artifactory
@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.6'
-    - name: Run Tests and Code Analysis
+    - name: Run Python Tests and Code Analysis
       uses: cepsadigital/github-action-devops-python-testing@1.0.0
       with:
         source-code-folder-name: 'src'
