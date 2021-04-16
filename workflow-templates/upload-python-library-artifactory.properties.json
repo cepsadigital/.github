@@ -3,7 +3,7 @@
   "description": "A job to upload your Python libraries to Cepsa's Artifactory",
   "iconName": "upload_package",
   "categories": [
-      "Shell"
+      "Python"
   ],
   "filePatterns": [
       "package.json$"
