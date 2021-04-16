@@ -3,7 +3,7 @@
   "description": "A job to upload your NodeJS libraries to Cepsa's Artifactory",
   "iconName": "upload_package",
   "categories": [
-      "Shell"
+      "Javascript"
   ],
   "filePatterns": [
       "package.json$"
