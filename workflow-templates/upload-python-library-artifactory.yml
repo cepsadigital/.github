@@ -39,4 +39,4 @@ jobs:
       with:
         repository-name: td-pypi
         artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
-        artifactory-token: ${{ secrets.TD_ARTIFACTORY_PSW }}
+        artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
