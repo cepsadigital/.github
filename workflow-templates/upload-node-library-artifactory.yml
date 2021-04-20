@@ -1,4 +1,4 @@
-name: CEPSA - Upload NodeJS Library to Artifactory
+name: Upload NodeJS Library to Artifactory - CEPSA
 
 on:
   workflow_dispatch:
