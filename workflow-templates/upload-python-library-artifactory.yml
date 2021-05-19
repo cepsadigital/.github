@@ -40,3 +40,4 @@ jobs:
         repository-name: td-pypi
         artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
         artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
+        artifactory-host: https://cepsa.jfrog.io
