@@ -34,7 +34,7 @@ jobs:
         npm run test --if-present
 
     - name: SonarQube Scan
-      uses: cepsadigital/github-action-devops-sonar-scan@1.0.0
+      uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
       with:
         host: ${{ secrets.TD_SONAR_HOST }}
         login: ${{ secrets.TD_SONAR_USER }}
