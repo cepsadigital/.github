@@ -25,11 +25,11 @@ jobs:
       with:
         python-version: '3.6'
     - name: Run Python Tests and Code Analysis
-      uses: cepsadigital/github-action-devops-python-testing@1.0.0
+      uses: cepsadigital/github-action-devops-python-testing@1.1.0
       with:
         source-code-folder-name: 'src'
     - name: SonarQube Scan
-      uses: cepsadigital/github-action-devops-sonar-scan@1.0.0
+      uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
       with:
         host: ${{ secrets.TD_SONAR_HOST }}
         login: ${{ secrets.TD_SONAR_USER }}
