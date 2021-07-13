@@ -3,6 +3,7 @@ name: Patch Release
 about: New Patch Release for your project.
 title: "Release X"
 labels: release, patch
+
 ---
 
 ## What?
