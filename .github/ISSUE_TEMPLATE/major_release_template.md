@@ -2,7 +2,7 @@
 name: Major Release
 about: New Major Release for your project.
 title: "Release X"
-labels: release, major
+labels: 'release, major'
 ---
 
 ## What?
