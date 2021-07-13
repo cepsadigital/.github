@@ -1,8 +1,9 @@
 ---
-name: "Minor Release"
-about: "New Minor Release for your project"
+name: Minor Release
+about: New Minor Release for your project.
 title: "Release X"
-labels: "release, minor"
+labels: release, minor
+
 ---
 
 ## What?
