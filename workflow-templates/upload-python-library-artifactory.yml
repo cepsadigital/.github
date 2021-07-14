@@ -43,12 +43,12 @@ jobs:
       run: |
       
         if [[ $GITHUB_REF == *"develop"* ]]; then
-          PACKAGE_VERSION="${PACKAGE_VERSION}+f${VERSION_DATE}"
+          PACKAGE_VERSION=
         fi
         
         if [[ $GITHUB_REF == *"release/"* ]]; then
           TAG=${GITHUB_REF##*/}
-          PACKAGE_VERSION="${TAG}+f${VERSION_DATE}"
+          PACKAGE_VERSION=
         fi
       
         if [[ $GITHUB_REF == *"tags"* ]]; then
@@ -58,6 +58,8 @@ jobs:
           #
         fi
         
+        # Copiamos en __init__.py el nombre de la version
+        # Asumimos que el nombre del paquete se llama igual que el del repo. (revisar)
         sed -i.bak -e "s/__version__.*/__version__ = '${PACKAGE_VERSION}'/g" ${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE##*/}/__init__.py
         
     - name: Upload Python Library to Artifactory
