@@ -14,11 +14,6 @@ name: Upload Python Library to Artifactory - CEPSA
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'releases/**'
-    tags:
-      - '*'
 
 jobs:
   deploy:
@@ -38,30 +33,7 @@ jobs:
       with:
         host: ${{ secrets.TD_SONAR_HOST }}
         login: ${{ secrets.TD_SONAR_USER }}
-        password: ${{ secrets.TD_SONAR_PSW }}
-    - name: Calculate Version
-      run: |
-      
-        if [[ $GITHUB_REF == *"develop"* ]]; then
-          PACKAGE_VERSION=
-        fi
-        
-        if [[ $GITHUB_REF == *"release/"* ]]; then
-          TAG=${GITHUB_REF##*/}
-          PACKAGE_VERSION=
-        fi
-      
-        if [[ $GITHUB_REF == *"tags"* ]]; then
-          PACKAGE_VERSION=${GITHUB_REF##*/}
-          #
-          #Promocionar ultimo artefacto relese candidate
-          #
-        fi
-        
-        # Copiamos en __init__.py el nombre de la version
-        # Asumimos que el nombre del paquete se llama igual que el del repo. (revisar)
-        sed -i.bak -e "s/__version__.*/__version__ = '${PACKAGE_VERSION}'/g" ${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE##*/}/__init__.py
-        
+        password: ${{ secrets.TD_SONAR_PSW }} 
     - name: Upload Python Library to Artifactory
       uses: cepsadigital/github-action-devops-python-upload-artifactory@1.0.0
       with:
