@@ -41,9 +41,10 @@ jobs:
         password: ${{ secrets.TD_SONAR_PSW }}
     - name: Calculate Version
       run: |
-      
+              
         if [[ $GITHUB_REF == *"develop"* ]]; then
-          PACKAGE_VERSION=
+          # Develop version: YYYY.MM.ddHHMMSS
+          PACKAGE_VERSION="$(date '+%Y.%m.%d%H%M%S')"
           # Copiamos en __init__.py el nombre de la version
           # Asumimos que el nombre del paquete se llama igual que el del repo. (revisar)
           sed -i.bak -e "s/__version__.*/__version__ = '${PACKAGE_VERSION}'/g" ${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE##*/}/__init__.py
@@ -51,7 +52,8 @@ jobs:
         
         if [[ $GITHUB_REF == *"release/"* ]]; then
           TAG=${GITHUB_REF##*/}
-          PACKAGE_VERSION=
+          DATE="$(date '+%Y%m%d%H%M%S')"
+          PACKAGE_VERSION="${TAG}.RC.${DATE}"
           # Copiamos en __init__.py el nombre de la version
           # Asumimos que el nombre del paquete se llama igual que el del repo. (revisar)
           sed -i.bak -e "s/__version__.*/__version__ = '${PACKAGE_VERSION}'/g" ${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE##*/}/__init__.py
