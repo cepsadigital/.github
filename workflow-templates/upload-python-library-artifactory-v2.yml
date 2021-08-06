@@ -62,7 +62,7 @@ jobs:
       
         if [[ $GITHUB_REF == *"tags"* ]]; then
           PACKAGE_VERSION=${GITHUB_REF##*/}
-          items = `curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST -H "content-type: text/plain" https://cepsa.jfrog.io/artifactory/api/search/aql -d 'items.find({"repo": "${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL }}"},{"name":{"$match":"${GITHUB_WORKSPACE##*/}*rc*"}}).sort({"$desc" : ["repo","name"]}).limit(2)'`
+          items=`curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST -H "content-type: text/plain" https://cepsa.jfrog.io/artifactory/api/search/aql -d 'items.find({"repo": "${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL }}"},{"name":{"$match":"${GITHUB_WORKSPACE##*/}*rc*"}}).sort({"$desc" : ["repo","name"]}).limit(2)'`
           items_list=$(echo ${items} | jq '.results')
 
           for row in $(echo "${items_list}" | jq -r '.[] | @base64'); do
@@ -81,7 +81,7 @@ jobs:
                 new_name="${GITHUB_WORKSPACE##*/}/${PACKAGE_VERSION}-py3-none-any.whl"    
               fi
 
-              curl -u alberto.cantalejo@outsourcing.cepsa.com:vVd5O19gPMCr -X POST https://cepsa.jfrog.io/artifactory/api/copy/td-pypi-local/${path}/${name}?to=/td-pypi-local/${new_path}/${new_name}
+              curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST https://cepsa.jfrog.io/artifactory/api/copy/td-pypi-local/${path}/${name}?to=/td-pypi-local/${new_path}/${new_name}
           done
 
           #curl -u alberto.cantalejo@outsourcing.cepsa.com:vVd5O19gPMCr -X DELETE https://cepsa.jfrog.io/artifactory/td-pypi-local/${path}          
