@@ -24,7 +24,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      ARTIFACTORY_TD_PYTHON_REPOSITORY: td-pypi   
+      ARTIFACTORY_TD_PYTHON_REPOSITORY_VIRTUAL: td-pypi
+      ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL: td-pypi-local
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -69,7 +70,7 @@ jobs:
     - name: Upload Python Library to Artifactory
       uses: cepsadigital/github-action-devops-python-upload-artifactory@1.0.0
       with:
-        repository-name: ${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY }}
+        repository-name: ${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY_VIRTUAL }}
         artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
         artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
         artifactory-host: https://cepsa.jfrog.io
