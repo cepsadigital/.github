@@ -55,14 +55,14 @@ jobs:
         if [[ $GITHUB_REF == *"release/"* ]]; then
           TAG=${GITHUB_REF##*/}
           DATE="$(date '+%Y%m%d%H%M%S')"
-          PACKAGE_VERSION="${TAG}-RC-${DATE}"
+          PACKAGE_VERSION="${TAG}rc${DATE}"
           # It is assumed that repository and package have the same name
           sed -i.bak -e "s/__version__.*/__version__ = '${PACKAGE_VERSION}'/g" ${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE##*/}/__init__.py
         fi
       
         if [[ $GITHUB_REF == *"tags"* ]]; then
           PACKAGE_VERSION=${GITHUB_REF##*/}
-          items = `curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST -H "content-type: text/plain" https://cepsa.jfrog.io/artifactory/api/search/aql -d 'items.find({"repo": "${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL }}"},{"name":{"$match":"${GITHUB_WORKSPACE##*/}*-rc-*"}}).sort({"$desc" : ["repo","name"]}).limit(2)'`
+          items = `curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST -H "content-type: text/plain" https://cepsa.jfrog.io/artifactory/api/search/aql -d 'items.find({"repo": "${{ env.ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL }}"},{"name":{"$match":"${GITHUB_WORKSPACE##*/}*rc*"}}).sort({"$desc" : ["repo","name"]}).limit(2)'`
           items_list=$(echo ${items} | jq '.results')
 
           for row in $(echo "${items_list}" | jq -r '.[] | @base64'); do
