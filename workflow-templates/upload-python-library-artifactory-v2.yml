@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'releases/**'
+      - 'release/**'
     tags:
       - '*'
 
@@ -77,9 +77,9 @@ jobs:
               fi
               curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X POST https://cepsa.jfrog.io/artifactory/api/copy/td-pypi-local/${path}/${name}?to=/td-pypi-local/${new_path}
           done
+        fi
       #   DELETE RELEASE CANDIDATE VERSION
-      #   curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X DELETE https://cepsa.jfrog.io/artifactory/td-pypi-local/${path}          
-        fi                
+      #   curl -u ${{ secrets.TD_ARTIFACTORY_USER }}:${{ secrets.TD_ARTIFACTORY_PSW }} -X DELETE https://cepsa.jfrog.io/artifactory/td-pypi-local/${path}                     
     - name: Upload Python Library to Artifactory
       uses: cepsadigital/github-action-devops-python-upload-artifactory@1.0.0
       with:
