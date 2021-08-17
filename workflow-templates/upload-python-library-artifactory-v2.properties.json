@@ -1,5 +1,5 @@
 {
-  "name": "Upload Python Library to Artifactory V2 - CEPSA",
+  "name": "Upload Python Library to Artifactory V2 (beta) - CEPSA",
   "description": "A job to upload your Python libraries to Cepsa's Artifactory",
   "iconName": "upload_package",
   "categories": [
