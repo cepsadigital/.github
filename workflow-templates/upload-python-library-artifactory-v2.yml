@@ -10,7 +10,7 @@
 # - Upload Python Library to Artifactory
 # https://github.com/cepsadigital/github-action-devops-python-upload-artifactory
 
-name: Upload Python Library to Artifactory - CEPSA
+name: Upload Python Library to Artifactory v2 (beta) - CEPSA
 
 on:
   workflow_dispatch:
@@ -50,8 +50,6 @@ jobs:
         password: ${{ secrets.TD_SONAR_PSW }}
     - name: Calculate Version
       run: |   
-        echo "GITHUB REF:"
-        echo $GITHUB_REF
         if [[ $GITHUB_REF == *"develop"* ]]; then
           PACKAGE_VERSION="$(date '+%Y.%m.%d%H%M%S')"
           # It is assumed that repository and package have the same name
