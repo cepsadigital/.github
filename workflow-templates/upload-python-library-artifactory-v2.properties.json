@@ -1,0 +1,11 @@
+{
+  "name": "Upload Python Library to Artifactory V2 - CEPSA",
+  "description": "A job to upload your Python libraries to Cepsa's Artifactory",
+  "iconName": "upload_package",
+  "categories": [
+      "Python"
+  ],
+  "filePatterns": [
+      "package.json$"
+  ]
+}
