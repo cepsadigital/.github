@@ -1,1 +1,57 @@
+name: Upload NodeJS Library to Artifactory v2 (beta) - CEPSA
 
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'release/**'
+    tags:
+      - '*'
+
+jobs:
+  build-and-deploy:
+    name: Build, Test, and Publish NodeJS Library
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACTORY_NODE_REPOSITORY: 'td-npm'
+      NODE_VERSION: '12.x'
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: http://cepsa.jfrog.io/artifactory/api/npm/${{ env.ARTIFACTORY_NODE_REPOSITORY }}
+    - name: Setting GitHub User
+      run: |
+        git config --global user.email "devops@cepsa.com"
+        git config --global user.name "Devops Cepsa"
+        
+        
+    - name: npm install
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+      run: |
+        npm install --production
+
+    - name: npm build
+      run: |
+        npm run build --if-present
+
+    - name: npm test
+      run: |
+        npm run test --if-present
+
+    - name: SonarQube Scan
+      uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
+      with:
+        host: ${{ secrets.TD_SONAR_HOST }}
+        login: ${{ secrets.TD_SONAR_USER }}
+        password: ${{ secrets.TD_SONAR_PSW }} 
+
+    - name: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+      run: |
+        npm publish --if-present
