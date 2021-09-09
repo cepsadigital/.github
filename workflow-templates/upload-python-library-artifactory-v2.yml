@@ -24,6 +24,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
+      ALLOWED_BRANCHES: refs/heads/develop,refs/heads/master,refs/heads/release,refs/tags/
       ARTIFACTORY_TD_PYTHON_REPOSITORY_VIRTUAL: td-pypi
       ARTIFACTORY_TD_PYTHON_REPOSITORY_LOCAL: td-pypi-local
     steps:
@@ -32,6 +33,21 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.6'
+    - name: Avoid execution of non allowed branches 
+      run: |
+        allowed=false
+        for i in $(echo ${{env.ALLOWED_BRANCHES}} | tr "," "\n")
+        do
+          # process
+          if [[ ${GITHUB_REF} == *"$i"* ]]; then
+            echo "Allowed branch ${GITHUB_REF}"
+            allowed=true
+          fi  
+        done
+        if [[ $allowed == false ]]; then
+          echo "::error::Branch ${GITHUB_REF} not allowed"
+          exit 1
+        fi
     - name: Setting GitHub User
       run: |
         git config --global user.email "devops@cepsa.com"
