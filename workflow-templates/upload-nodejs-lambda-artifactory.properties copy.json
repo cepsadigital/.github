@@ -1,0 +1,11 @@
+{
+  "name": "Build & Upload a NodeJS AWS Lambda package to Artifactory - CEPSA",
+  "description": "A job to build & upload your NodeJS AWS Lambda package to Cepsa's Artifactory",
+  "iconName": "upload_package",
+  "categories": [
+    "Javascript"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}
