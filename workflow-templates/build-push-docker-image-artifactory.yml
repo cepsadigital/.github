@@ -1,0 +1,26 @@
+
+name: Build and Push Docker Image to Artifactory Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Git Source
+      uses: actions/checkout@v2
+    - name: Get Time
+      id: time
+      uses: nanzm/get-time-action@v1.1
+      with:
+        format: 'YYYYMMDDHHmmss'
+    - name: Build and Push Docker Image to Artifactory
+      uses: cepsadigital/github-action-devops-build-and-push-docker-image@master
+      with:
+        registry-user: ${{ secrets.TD_ARTIFACTORY_REG_USER }}
+        registry-password: ${{ secrets.TD_ARTIFACTORY_REG_TOKEN }}
+        repository-name: devops-docker-unstable
+        image-name: test-github-actions
+        image-tag: "${{ steps.time.outputs.time }}"
+        image-version: image-version-${{ steps.time.outputs.time }}
