@@ -1,0 +1,50 @@
+name: Build lambda package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'release/**'
+    tags:
+      - '*'
+
+jobs:
+  build-and-deploy:
+    name: Build, Test, and Publish Lambda NodeJS Artifact
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACTORY_NODE_REPOSITORY: td-npm
+      ARTIFACTORY_GENERIC_REPOSITORY: td-generic
+      NODE_VERSION: '12.x'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: http://cepsa.jfrog.io/artifactory/api/npm/${{ env.ARTIFACTORY_NODE_REPOSITORY }}
+    - name: npm install
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+      run: |
+        npm install
+    - name: npm build
+      run: |
+        npm run build --if-present
+    - name: npm test
+      run: |
+        npm run test --if-present
+    - name: SonarQube Scan
+      uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
+      with:
+        host: ${{ secrets.TD_SONAR_HOST }}
+        login: ${{ secrets.TD_SONAR_USER }}
+        password: ${{ secrets.TD_SONAR_PSW }}
+    - name: Build & Publish lambda to artifactory
+      uses: cepsadigital/github-action-devops-nodejs-lambda-build-and-publish-artifactory@1.0.0
+      with:
+        source-code-folder-name: 'src'
+        artifactory-host: cepsa.jfrog.io
+        artifactory-token: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+        artifactory-target-repository: ${{env.ARTIFACTORY_GENERIC_REPOSITORY}}
+        artifactory-dependency-repository: ${{env.ARTIFACTORY_NODE_REPOSITORY}}
