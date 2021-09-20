@@ -6,6 +6,6 @@
       "Python"
   ],
   "filePatterns": [
-      "package.json$"
+      "setup.py$"
   ]
 }
