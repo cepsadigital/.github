@@ -6,6 +6,6 @@
       "AWS"
   ],
   "filePatterns": [
-      "package.json$"
+      "config.yml$"
   ]
 }
