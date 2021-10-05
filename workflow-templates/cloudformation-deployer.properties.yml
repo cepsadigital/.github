@@ -6,6 +6,6 @@
       "AWS"
   ],
   "filePatterns": [
-      "iac$"
+      "iac"
   ]
 }
