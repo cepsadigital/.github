@@ -36,7 +36,7 @@ jobs:
           aws-region: eu-west-1
       - name: get aws caller indentity
         run:  aws sts get-caller-identity
-      - name: cloudformation-deployer action
+      - name: cloudformation-deployer
         uses: cepsadigital/github-action-devops-cloudformation-deployer@1.0.0
         with:
           githubtoken: ${{ secrets.ROBOT_TOKEN }}
