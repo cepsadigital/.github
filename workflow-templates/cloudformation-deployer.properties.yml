@@ -4,8 +4,5 @@
   "iconName": "upload_package",
   "categories": [
       "AWS"
-  ],
-  "filePatterns": [
-      "iac"
   ]
 }
