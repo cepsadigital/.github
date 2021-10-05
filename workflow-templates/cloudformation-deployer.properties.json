@@ -1,7 +1,7 @@
 {
   "name": "CloudFormation Deployer",
   "description": "A job to deploy iac on AWS with CloudFormation-Deployer Tool",
-  "iconName": "upload_package",
+  "iconName": "upload-cloud",
   "categories": [
       "AWS"
   ]
