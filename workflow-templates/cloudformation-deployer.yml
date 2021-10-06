@@ -34,8 +34,6 @@ jobs:
           aws-access-key-id: ${{ env.AKID }}
           aws-secret-access-key: ${{ env.SKID }}
           aws-region: eu-west-1
-      - name: get aws caller indentity
-        run:  aws sts get-caller-identity
       - name: cloudformation-deployer
         uses: cepsadigital/github-action-devops-cloudformation-deployer@1.0.0
         with:
