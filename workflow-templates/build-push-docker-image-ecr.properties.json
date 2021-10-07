@@ -1,0 +1,11 @@
+{
+  "name": "Build & Push Docker Image to AWS CES Workflow - CEPSA",
+  "description": "A workflow to build & upload your Docker image to AWS ECR",
+  "iconName": "upload_package",
+  "categories": [
+      "Docker"
+  ],
+  "filePatterns": [
+      "Dockerfile"
+  ]
+}
