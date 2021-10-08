@@ -1,85 +1,30 @@
-name: Build and Push Docker Image to AWS ECR Workflow
+name: Build and Push Docker Image to AWS ECR
 
 on:
   workflow_dispatch:
 
 jobs:
-  publish-image:
+  publish-docker-image:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: worker/code
     env:
-      PYTHON_FOLDER: knolar_billing_scripts
-      ARTIFACTORY_PYTHON_REPOSITORY: knolar-python
-      ARTIFACTORY_GENERIC_REPOSITORY: 'knolar-generic'
-      REGISTRYNAME: 'billing'
-      SHARED_ACCOUNT: 644143921600
+      REPOSITORY: '<REPOSITORY>'
+      IMAGE_VERSION: 'latest'
+      AWS_AK: ${{ secrets.<AWS ACCOUNT ACCESS KEY> }}
+      AWS_SK: ${{ secrets.<AWS ACCOUNT SECRET KEY> }}
     steps:
     - uses: actions/checkout@v2
-
-    - name: Branch name
-      run: echo running on branch ${GITHUB_REF##*/}
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-
-    - name: Cache pip
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies
-      run: |
-        pip install setuptools==56.0.0 tox==3.23.1 pylint==2.8.3 astroid==2.5.6 wheel==0.36.2 twine==3.4.1 -i https://${{ secrets.ARTIFACTORY_USER }}:${{ secrets.ARTIFACTORY_PWD }}@cepsa.jfrog.io/artifactory/api/pypi/${{ env.ARTIFACTORY_PYTHON_REPOSITORY }}/simple
-        pip install -r requirements.txt -i https://${{ secrets.ARTIFACTORY_USER }}:${{ secrets.ARTIFACTORY_PWD }}@cepsa.jfrog.io/artifactory/api/pypi/${{ env.ARTIFACTORY_PYTHON_REPOSITORY }}/simple -t ${{ env.PYTHON_FOLDER }}
-
-    - name: Run tests
-      run: |
-        # Set PIP index variable to get dependencies from artifactory
-        export PIP_INDEX_URL=https://${{ secrets.ARTIFACTORY_USER }}:${{ secrets.ARTIFACTORY_PWD }}@cepsa.jfrog.io/artifactory/api/pypi/knolar-python/simple
-        tox
-
-    - name: Run pylint
-      run: |
-        pylint ${{ env.PYTHON_FOLDER }} -r n --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" --exit-zero > pylint.out
-
-    - name: SonarQube Scan
-      uses: Cloud-Process-History/github-action-sonarqube-scan@2.0.0
-      with:
-        host: ${{ secrets.SONAR_HOST }}
-        login: ${{ secrets.SONAR_USER }}
-        password: ${{ secrets.SONAR_PWD }}
-        projectBaseDir: worker/code
-        checkQualityGate: false
-
-    - uses: Cloud-Process-History/github-action-assume-role@1.0.0
-      with:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'eu-west-1'
-        AWS_EXTERNAL_ID: ${{ secrets.DEPLOYMENT_EXID }}
-        AWS_ROLE_TO_ASSUME: arn:aws:iam::${{ env.SHARED_ACCOUNT }}:role/github-robot-access-role
-        AWS_SESSION_NAME: 'github-robot'
-
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with: 
+         aws-access-key-id: ${{ env.AWS_AK }}
+         aws-secret-access-key: ${{ env.AWS_SK }}
+         aws-region: eu-west-1
     - name: Login to Amazon ECR
-      id: login-ecr-shared
+      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Get version
-      working-directory: worker/code
-      run: |
-        echo "IMAGE_TAG=$(python setup.py --version)" >> $GITHUB_ENV
-
-    - name: Docker Build and Push to Amazon ECR Shared
-      working-directory: worker
+    - name: Docker Build and Push to Amazon ECR
       env:
-        ECR_URL: ${{ steps.login-ecr-shared.outputs.registry }}/${{ env.REGISTRYNAME }}
+        ECR_URL: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPOSITORY }}
       run: |
-        docker build -t ${{ env.ECR_URL }}:${{ env.IMAGE_TAG }} .
-        docker push ${{ env.ECR_URL }}:${{ env.IMAGE_TAG }}
+        docker build -t ${{ env.ECR_URL }}:${{ env.IMAGE_VERSION }} .
+        docker push ${{ env.ECR_URL }}:${{ env.IMAGE_VERSION }}
