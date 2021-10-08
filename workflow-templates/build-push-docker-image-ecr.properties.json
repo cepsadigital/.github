@@ -1,6 +1,6 @@
 {
   "name": "Build & Push Docker Image to AWS ECR Workflow - CEPSA",
-  "description": "A workflow to build & upload your Docker image to AWS ECR",
+  "description": "Build & upload your Docker image to AWS ECR",
   "iconName": "upload_package",
   "categories": [
       "Docker"
