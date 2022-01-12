@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+           python-version: '3.7'
       - name: Install dependencies
         if: startsWith(github.ref, 'refs/tags/') != true
         run: |
@@ -40,7 +40,7 @@ jobs:
           login: ${{ secrets.TD_SONAR_USER }}   
           password: ${{ secrets.TD_SONAR_PSW }}
       - name: Build & Publish lambda to artifactory
-        uses: cepsadigital/github-action-devops-python-lambda-build-and-publish-artifactory@1.0.0
+        uses: cepsadigital/github-action-devops-serverless-lambda-build-and-publish-artifactory@1.0.0
         with:
           source-code-folder-name: 'src'
           artifactory-host: cepsa.jfrog.io
@@ -48,3 +48,4 @@ jobs:
           artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
           artifactory-target-repository: ${{env.ARTIFACTORY_GENERIC_REPOSITORY}}
           artifactory-dependency-repository: ${{env.ARTIFACTORY_PYTHON_REPOSITORY}}
+          extra-serverless-packages: serverless-python-requirements

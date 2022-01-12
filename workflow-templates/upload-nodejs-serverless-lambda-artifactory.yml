@@ -41,10 +41,12 @@ jobs:
         login: ${{ secrets.TD_SONAR_USER }}
         password: ${{ secrets.TD_SONAR_PSW }}
     - name: Build & Publish lambda to artifactory
-      uses: cepsadigital/github-action-devops-nodejs-lambda-build-and-publish-artifactory@1.0.0
+      uses: cepsadigital/github-action-devops-serverless-lambda-build-and-publish-artifactory@1.0.0
       with:
         source-code-folder-name: 'src'
         artifactory-host: cepsa.jfrog.io
+        artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
+        artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
         artifactory-token: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
         artifactory-target-repository: ${{env.ARTIFACTORY_GENERIC_REPOSITORY}}
-        artifactory-dependency-repository: ${{env.ARTIFACTORY_NODE_REPOSITORY}}
+        artifactory-dependency-repository: ${{env.ARTIFACTORY_PYTHON_REPOSITORY}}
