@@ -35,7 +35,7 @@ jobs:
         npm run test --if-present && npm run lint --if-present
     - name: SonarQube Scan
       if: startsWith(github.ref, 'refs/tags/') != true
-      uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
+      uses: cepsadigital/github-action-devops-sonar-scan@1.1.0
       with:
         host: ${{ secrets.TD_SONAR_HOST }}
         login: ${{ secrets.TD_SONAR_USER }}
