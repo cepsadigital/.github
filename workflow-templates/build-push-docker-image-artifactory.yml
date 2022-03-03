@@ -1,11 +1,11 @@
 
-name: Build and Push Docker Image to Artifactory Workflow
+name: Build and Push Docker Image to Artifactory
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  docker-build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Git Source
@@ -16,11 +16,16 @@ jobs:
       with:
         format: 'YYYYMMDDHHmmss'
     - name: Build and Push Docker Image to Artifactory
-      uses: cepsadigital/github-action-devops-build-and-push-docker-image@master
+      uses: cepsadigital/github-action-devops-build-and-push-docker-image@1.0.0
       with:
-        registry-user: ${{ secrets.TD_ARTIFACTORY_REG_USER }}
-        registry-password: ${{ secrets.TD_ARTIFACTORY_REG_TOKEN }}
-        repository-name: devops-docker-unstable
-        image-name: test-github-actions
+        artifactory-host: cepsa.jfrog.io
+        artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
+        artifactory-psw: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+        artifactory-repository-name: td-docker-unstable-local
+        image-name: <image_name>
         image-tag: "${{ steps.time.outputs.time }}"
         image-version: image-version-${{ steps.time.outputs.time }}
+        # Optinals inputs
+        # path-dockerfile: (i.e) iac/Dockerfile
+        # Considerations: If you only have to introduce an argument, you only have to put the argument. In case there are more arguments, you must include "--build-arg" before each argument.
+        # build-arg: some_variable_name_a=a_value --build-arg some_variable_name_b=b_value
