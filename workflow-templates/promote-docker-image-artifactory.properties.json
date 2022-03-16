@@ -1,0 +1,11 @@
+{
+  "name": "Promote Docker image between Repositories in Artifactory - CEPSA",
+  "description": "A job to promote your Docker imagen in Cepsa's Artifactory",
+  "iconName": "upload_package",
+  "categories": [
+      "Docker"
+  ],
+  "filePatterns": [
+      "package.json$"
+  ]
+}
