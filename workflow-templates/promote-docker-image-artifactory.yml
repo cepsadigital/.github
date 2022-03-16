@@ -1,0 +1,30 @@
+name: Promote Docker image in Artifactory
+
+on:
+  workflow_dispatch:
+    inputs:
+      origin:
+        description: 'Enter origin image name and version'
+        required: true
+        default: '<ORIGIN_IMAGE_NAME>/<VERSION>'
+      target:
+        description: 'Enter target image name and version'
+        required: true
+        default: '<TARGET_IMAGE_NAME>/<VERSION>'        
+
+jobs:
+  artifactory-promote:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Git Source
+      uses: actions/checkout@v2
+    - name: Promote Docker Image
+      uses: cepsadigital/github-action-devops-artifactory-promote-docker-image@master
+      with:
+        artifactory-host: cepsa.jfrog.io
+        artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
+        artifactory-psw: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+        artifactory-unstable-repo: td-docker-unstable-local
+        artifactory-stable-repo: td-docker-local
+        origin-path: ${{ github.event.inputs.origin }}
+        target-path: ${{ github.event.inputs.target }}
