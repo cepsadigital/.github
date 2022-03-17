@@ -6,11 +6,11 @@ on:
       origin:
         description: 'Enter origin image name and version'
         required: true
-        default: '<ORIGIN_IMAGE_NAME>/<VERSION>'
+        default: '<ORIGIN_IMAGE_NAME>/VERSION'
       target:
         description: 'Enter target image name and version'
         required: true
-        default: '<TARGET_IMAGE_NAME>/<VERSION>'        
+        default: '<TARGET_IMAGE_NAME>/VERSION'       
 
 jobs:
   artifactory-promote:
