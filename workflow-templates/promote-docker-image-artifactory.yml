@@ -19,7 +19,7 @@ jobs:
     - name: Checkout Git Source
       uses: actions/checkout@v2
     - name: Promote Docker Image
-      uses: cepsadigital/github-action-devops-artifactory-promote-docker-image@master
+      uses: cepsadigital/github-action-devops-artifactory-promote-docker-image@1.0.0
       with:
         artifactory-host: https://cepsa.jfrog.io
         artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
