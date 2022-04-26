@@ -1,0 +1,11 @@
+{
+  "name": "Upload a frontend package to Artifactory - CEPSA",
+  "description": "A job to upload your frontend package to Cepsa's Artifactory",
+  "iconName": "upload_package",
+  "categories": [
+      "Javascript"
+  ],
+  "filePatterns": [
+      "package.json$"
+  ]
+}
