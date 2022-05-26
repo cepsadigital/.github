@@ -1,11 +1,50 @@
-{
-  "name": "Upload Node.js Library to Artifactory - CEPSA",
-  "description": "A job to upload your NodeJS libraries to Cepsa's Artifactory",
-  "iconName": "upload_package",
-  "categories": [
-      "Javascript"
-  ],
-  "filePatterns": [
-      "package.json$"
-  ]
-}
+name: Build Frontend Package
+
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - 'release/**'
+    tags:
+      - '*'
+
+jobs:
+  build:
+    env:
+      ARTIFACTORY_GENERIC_REPOSITORY: td-generic
+      ARTIFACTORY_NODE_REPOSITORY: td-npm
+      NODE_VERSION: '14.x'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: http://cepsa.jfrog.io/artifactory/api/npm/${{ env.ARTIFACTORY_NODE_REPOSITORY }}
+
+      - name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+        run: |
+          npm install
+
+      - name: Run tests & linter if present
+        run: |
+          npm run test --if-present && npm run lint --if-present
+
+      - name: SonarQube Scan
+        uses: cepsadigital/github-action-devops-sonar-scan@1.0.1
+        with:
+          host: ${{ secrets.TD_SONAR_HOST }}
+          login: ${{ secrets.TD_SONAR_USER }}
+          password: ${{ secrets.TD_SONAR_PSW }} 
+      
+      - name: Build & Publish frontend to artifactory
+        uses: cepsadigital/github-action-devops-frontend-publish-artifactory@1.0.0
+        with:
+          artifactory-host: cepsa.jfrog.io
+          artifactory-token: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
+          artifactory-target-repository: ${{env.ARTIFACTORY_GENERIC_REPOSITORY}}
+          artifactory-dependency-repository: ${{env.ARTIFACTORY_NODE_REPOSITORY}}
+          production-release: true
