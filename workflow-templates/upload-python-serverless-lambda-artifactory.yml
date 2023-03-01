@@ -44,8 +44,7 @@ jobs:
         with:
           source-code-folder-name: 'src'
           artifactory-host: cepsa.jfrog.io
-          artifactory-user: ${{ secrets.TD_ARTIFACTORY_USER }}
-          artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
+          artifactory-token: ${{ secrets.TD_ARTIFACTORY_TOKEN }}
           artifactory-target-repository: ${{env.ARTIFACTORY_GENERIC_REPOSITORY}}
           artifactory-dependency-repository: ${{env.ARTIFACTORY_PYTHON_REPOSITORY}}
           extra-serverless-packages: serverless-python-requirements
