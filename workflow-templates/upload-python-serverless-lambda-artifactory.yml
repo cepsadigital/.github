@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-           python-version: '3.7'
+           python-version: '3.9'
       - name: Install dependencies
         if: startsWith(github.ref, 'refs/tags/') != true
         run: |
@@ -34,7 +34,7 @@ jobs:
           artifactory-psw: ${{ secrets.TD_ARTIFACTORY_PSW }}
       - name: SonarQube Scan
         if: startsWith(github.ref, 'refs/tags/') != true
-        uses: cepsadigital/github-action-devops-sonar-scan@1.1.0
+        uses: cepsadigital/github-action-devops-sonar-scan@1.2.0
         with:
           host: ${{ secrets.TD_SONAR_HOST }} 
           login: ${{ secrets.TD_SONAR_USER }}   
