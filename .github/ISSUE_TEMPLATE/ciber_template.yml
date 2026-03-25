@@ -1,5 +1,5 @@
 name: 🔐 Cybersecurity Support
-about: Reporta cualquier problema o bloqueo relacionado con seguridad (secret scanning, code scanning, dependencias, permisos, etc.)
+description: Reporta cualquier problema o bloqueo relacionado con seguridad (secret scanning, code scanning, dependencias, permisos, etc.)
 title: "[CIBER] "
 labels: ["ciber"]
 
