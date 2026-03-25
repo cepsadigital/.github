@@ -4,6 +4,14 @@ title: "[CIBER] "
 labels: ["ciber"]
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **No pegues secretos ni datos sensibles en este formulario.**
+
+        - No incluyas contraseñas, tokens, claves API, secretos, ni datos personales (PII) en textos, logs o capturas de pantalla.
+        - Redacta cualquier valor sensible antes de pegarlo (por ejemplo: `mi-cliente-*****`, `******`).
+        - Si necesitas compartir un secreto, hazlo únicamente por un canal privado aprobado y rótalo en cuanto sea posible.
   - type: dropdown
     id: category
     attributes:
