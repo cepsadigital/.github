@@ -29,14 +29,6 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: repo
-    attributes:
-      label: Repositorio afectado
-      placeholder: "org/nombre-del-repo"
-    validations:
-      required: true
-
   - type: textarea
     id: what
     attributes:
@@ -45,17 +37,6 @@ body:
       placeholder: "Al hacer push a main, secret scanning bloqueó el commit porque..."
     validations:
       required: true
-
-  - type: textarea
-    id: steps
-    attributes:
-      label: Pasos para reproducirlo
-      placeholder: |
-        1. 
-        2. 
-        3.
-    validations:
-      required: false
 
   - type: textarea
     id: bypass
